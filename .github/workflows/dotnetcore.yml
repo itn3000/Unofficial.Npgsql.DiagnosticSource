@@ -22,3 +22,5 @@ jobs:
         with:
           name: Unofficial.Npgsql.DiagnosticSource.nupkg
           path: dist/Release
+      - name: nuget package push
+        run: dotnet run -p ./build/nukebuild.csproj -- --Configuration Release --Target GithubPush --GithubUsername itn3000 --GithubToken ${{secrets.GITHUB_TOKEN}} --GithubPackageUrl "https://nuget.pkg.github.com/itn3000/index.json"
