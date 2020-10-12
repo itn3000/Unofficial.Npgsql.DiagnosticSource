@@ -92,6 +92,7 @@ class Build : NukeBuild
 <configuration>
     <packageSources>
         <clear />
+        <add key=""nugetv3"" value=""https://api.nuget.org/v3/index.json"" protocolVersion=""3"" />
         <add key=""github"" value=""{0}"" />
     </packageSources>
     <packageSourceCredentials>
