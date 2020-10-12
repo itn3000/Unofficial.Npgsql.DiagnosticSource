@@ -16,7 +16,7 @@ jobs:
         with:
           dotnet-version: "2.1.607"
       - name: build package
-        run: dotnet run -p ./build/nukebuild.csproj -- --Configuration Release
+        run: dotnet run -p ./build/nukebuild.csproj -- --Configuration Release --Target Pack
       - name: collect artifacts
         uses: actions/upload-artifact@v1
         with:
