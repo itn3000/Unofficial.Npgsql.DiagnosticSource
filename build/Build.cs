@@ -87,8 +87,7 @@ class Build : NukeBuild
         .Requires(() => !string.IsNullOrEmpty(GithubPackageUrl))
         .Executes(() =>
         {
-            string nugetconfig = string.Format(@"
-<?xml version=""1.0"" encoding=""utf-8""?>
+            string nugetconfig = string.Format(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <configuration>
     <packageSources>
         <clear />
@@ -97,8 +96,9 @@ class Build : NukeBuild
     </packageSources>
     <packageSourceCredentials>
         <github>
-            <add key=""Username"" value=""{1}"" />
-            <add key=""ClearTextPassword"" value=""{2}"" />
+            <add key=""username"" value=""{1}"" />
+            <add key=""cleartextpassword"" value=""{2}"" />
+            <add key=""validauthenticationtypes"" value=""basic"" />
         </github>
     </packageSourceCredentials>
 </configuration>
