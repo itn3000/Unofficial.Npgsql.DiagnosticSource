@@ -1,0 +1,20 @@
+name: .NET Core Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup .NET Core 3.1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "3.1.402"
+      - name: build package
+        run: dotnet run -p ./build/nukebuild.csproj -- --Configuration Release
+      - name: collect artifacts
+        uses: actions/upload-artifacts@v1
+        with:
+          name: nupkg
+          path: dist/Release
