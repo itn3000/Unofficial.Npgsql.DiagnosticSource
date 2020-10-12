@@ -14,7 +14,7 @@ jobs:
       - name: build package
         run: dotnet run -p ./build/nukebuild.csproj -- --Configuration Release
       - name: collect artifacts
-        uses: actions/upload-artifacts@v1
+        uses: actions/upload-artifact@v1
         with:
           name: nupkg
           path: dist/Release
