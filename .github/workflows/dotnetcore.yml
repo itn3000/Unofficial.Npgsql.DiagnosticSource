@@ -20,5 +20,5 @@ jobs:
       - name: collect artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: nupkg
+          name: Unofficial.Npgsql.DiagnosticSource.nupkg
           path: dist/Release
