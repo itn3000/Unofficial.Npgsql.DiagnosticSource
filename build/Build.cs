@@ -82,7 +82,7 @@ class Build : NukeBuild
     Target GithubPush => _ => _
         .DependsOn(Pack)
         .Requires(() => Configuration == "Release")
-        .Requires(() => string.IsNullOrEmpty(GithubToken))
+        .Requires(() => !string.IsNullOrEmpty(GithubToken) && !string.IsNullOrEmpty(GithubPacakgeUrl) && !string.IsNullOrEmpty(GithubUsername))
         .Executes(() =>
         {
             string nugetconfig = string.Format(@"
