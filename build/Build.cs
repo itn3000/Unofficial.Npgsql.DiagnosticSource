@@ -32,7 +32,7 @@ class Build : NukeBuild
     [Parameter("github package registry password")]
     public string GithubToken { get; set; }
     [Parameter("github package url")]
-    public string GithubPacakgeUrl { get; set; }
+    public string GithubPackageUrl { get; set; }
     [Parameter("nuget package version suffix")]
     public string PackageVersionSuffix { get; set; } = string.Format("alpha.{0}", DateTime.UtcNow.ToString("yyyyMMddHHmmss"));
 
@@ -82,7 +82,9 @@ class Build : NukeBuild
     Target GithubPush => _ => _
         .DependsOn(Pack)
         .Requires(() => Configuration == "Release")
-        .Requires(() => !string.IsNullOrEmpty(GithubToken) && !string.IsNullOrEmpty(GithubPacakgeUrl) && !string.IsNullOrEmpty(GithubUsername))
+        .Requires(() => !string.IsNullOrEmpty(GithubToken))
+        .Requires(() => !string.IsNullOrEmpty(GithubUsername))
+        .Requires(() => !string.IsNullOrEmpty(GithubPackageUrl))
         .Executes(() =>
         {
             string nugetconfig = string.Format(@"
@@ -99,7 +101,7 @@ class Build : NukeBuild
         </github>
     </packageSourceCredentials>
 </configuration>
-", GithubPacakgeUrl, GithubUsername, GithubToken);
+", GithubPackageUrl, GithubUsername, GithubToken);
             EnsureExistingDirectory(RootDirectory / "tmp");
             System.IO.File.WriteAllText(RootDirectory / "tmp" / "NuGet.config", nugetconfig);
             try
