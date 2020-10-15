@@ -1,6 +1,6 @@
 # Unofficial.Npgsql.DiagnosticSource
 
-unofficial implementation for bridging Npgsql.Logging to DiagnosticSource
+unofficial implementation for bridging [Npgsql.Logging](https://www.npgsql.org/doc/logging.html) to DiagnosticSource
 
 # Usage
 
