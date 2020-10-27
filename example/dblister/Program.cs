@@ -29,6 +29,11 @@ namespace dblister
 {
     class DiagnosticEventObserver : IObserver<KeyValuePair<string, object>>
     {
+        string _SourceName;
+        public DiagnosticEventObserver(string name)
+        {
+            _SourceName = name;
+        }
         public void OnCompleted()
         {
         }
@@ -42,12 +47,12 @@ namespace dblister
             if (value.Key == CreateLoggerEventArgs.EventName)
             {
                 var p = (CreateLoggerEventArgs)value.Value;
-                Console.WriteLine($"{value.Key}: {p.Level}, {p.Name}");
+                Console.WriteLine($"{_SourceName} {value.Key}: {p.Level}, {p.Name}");
             }
             else
             {
                 var p = (LogEventArgs)value.Value;
-                Console.WriteLine($"{value.Key}: {p.Message}, {p.Level}, {p.ConnectorId}, {p.Exception}");
+                Console.WriteLine($"{_SourceName} {value.Key}: {p.Message}, {p.Level}, {p.ConnectorId}, {p.Exception}");
             }
         }
     }
@@ -63,9 +68,9 @@ namespace dblister
 
         public void OnNext(DiagnosticListener value)
         {
-            if (value.Name == DiagnosticNpgsqlLoggingProvider.ProviderName)
+            if (value.Name.StartsWith(DiagnosticNpgsqlLoggingProvider.ProviderName))
             {
-                value.Subscribe(new DiagnosticEventObserver(), (name, p1, p2) => true);
+                value.Subscribe(new DiagnosticEventObserver(value.Name), (name, p1, p2) => true);
             }
         }
     }

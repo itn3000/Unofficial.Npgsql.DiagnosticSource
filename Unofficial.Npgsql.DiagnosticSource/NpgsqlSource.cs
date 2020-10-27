@@ -21,6 +21,7 @@
 using System;
 using Npgsql.Logging;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace Unofficial.Npgsql.Logging
 {
@@ -59,13 +60,17 @@ namespace Unofficial.Npgsql.Logging
     }
     internal class DiagnosticNpgsqlLogger : NpgsqlLogger
     {
-        private static readonly DiagnosticSource _Source = new DiagnosticListener(DiagnosticNpgsqlLoggingProvider.ProviderName);
+        // private DiagnosticSource _Source = new DiagnosticListener(DiagnosticNpgsqlLoggingProvider.ProviderName);
+        static readonly ConcurrentDictionary<string, DiagnosticListener> _SourceDictionary = new ConcurrentDictionary<string, DiagnosticListener>();
+        private DiagnosticSource _Source;
+
         NpgsqlLogLevel _Level;
-        string _Name;
+        // string _Name;
         public DiagnosticNpgsqlLogger(NpgsqlLogLevel level, string name)
         {
             _Level = level;
-            _Name = "Log." + name;
+            // _Name = name;
+            _Source = _SourceDictionary.GetOrAdd(name, (x) => new DiagnosticListener($"{DiagnosticNpgsqlLoggingProvider.ProviderName}.{x}"));
             if (_Source.IsEnabled(CreateLoggerEventArgs.EventName))
             {
                 _Source.Write(CreateLoggerEventArgs.EventName, new CreateLoggerEventArgs() { Name = name, Level = level });
@@ -79,9 +84,9 @@ namespace Unofficial.Npgsql.Logging
 
         public override void Log(NpgsqlLogLevel level, int connectorId, string msg, Exception exception = null)
         {
-            if (_Source.IsEnabled(_Name))
+            if (_Source.IsEnabled("Log"))
             {
-                _Source.Write(_Name, new LogEventArgs(level, msg, connectorId, exception));
+                _Source.Write("Log", new LogEventArgs(level, msg, connectorId, exception));
             }
         }
     }

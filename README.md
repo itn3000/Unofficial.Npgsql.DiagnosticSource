@@ -12,12 +12,26 @@ unofficial implementation for bridging [Npgsql.Logging](https://www.npgsql.org/d
 
 # Diagnostic events
 
-This library provides [DiagnosticSource](https://github.com/dotnet/runtime/blob/e05718a2f810481cec6d2768aead9ba4580e3ddb/src/libraries/System.Diagnostics.DiagnosticSource/src/DiagnosticSourceUsersGuide.md) named "Npgsql.Logging".
-"Npgsql.Logging" produces following events.
+This library provides following [DiagnosticSource](https://github.com/dotnet/runtime/blob/e05718a2f810481cec6d2768aead9ba4580e3ddb/src/libraries/System.Diagnostics.DiagnosticSource/src/DiagnosticSourceUsersGuide.md)
+
+## Since 1.0
+
+[DiagnosticSource](https://github.com/dotnet/runtime/blob/e05718a2f810481cec6d2768aead9ba4580e3ddb/src/libraries/System.Diagnostics.DiagnosticSource/src/DiagnosticSourceUsersGuide.md) named `Npgsql.Logging.[Npgsql logger name]`.
+`Npgsql.Logging.[Npgsql logger name]` produces following events.
 
 |event name|when|argument type|
 |----------|----|-------------|
-|Log.*|emitted log from Npgsql.Logging.NpgsqlLogger|Unofficial.Npgsql.Logging.LogEventArgs|
+|Log|emitted log from Npgsql.Logging.NpgsqlLogger|Unofficial.Npgsql.Logging.LogEventArgs|
+|CreateLogger|first time of creating NpgsqlLogger instance|Unofficial.Npgsql.Logging.CreateLoggerEventArgs|
+
+## 0.x
+
+This library provides [DiagnosticSource](https://github.com/dotnet/runtime/blob/e05718a2f810481cec6d2768aead9ba4580e3ddb/src/libraries/System.Diagnostics.DiagnosticSource/src/DiagnosticSourceUsersGuide.md) named `Npgsql.Logging`.
+`Npgsql.Logging` produces following events.
+
+|event name|when|argument type|
+|----------|----|-------------|
+|Log.[Npgsql logger name]|emitted log from Npgsql.Logging.NpgsqlLogger|Unofficial.Npgsql.Logging.LogEventArgs|
 |CreateLogger|first time of creating NpgsqlLogger instance|Unofficial.Npgsql.Logging.CreateLoggerEventArgs|
 
 ## LogEventArgs
@@ -39,3 +53,13 @@ This library provides [DiagnosticSource](https://github.com/dotnet/runtime/blob/
 |----|----|
 |Name|string|
 |Level|NpgsqlLogLevel|
+
+# Change Logs
+
+## 1.0.0
+
+change DiagnosticSource name convention destructively(`Npgsql.Logging` to `Npgsql.Logging.[Npgsql logger name]`) and event name(`Log.[Npgsql logger name]` to `Log`)
+
+## 0.1.0
+
+first release
